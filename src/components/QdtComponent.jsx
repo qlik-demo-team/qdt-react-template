@@ -23,6 +23,7 @@ export default class QdtComponent extends React.Component {
     type: PropTypes.string.isRequired,
     props: PropTypes.object.isRequired,
   }
+
   componentDidMount() {
     const { type, props } = this.props;
     qdtComponents.render(type, props, this.node);

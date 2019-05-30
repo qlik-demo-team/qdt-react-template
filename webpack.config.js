@@ -1,24 +1,30 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: ['babel-polyfill', 'react-hot-loader/patch', './src/index'],
+  devtool: 'source-map',
+  entry: './src/index',
+  mode: 'production',
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: 'bundle.js',
   },
-  devtool: 'source-map',
   module: {
-    loaders: [
+    rules: [
       {
-        include: /\.(js|jsx)$/,
+        test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
         loader: 'babel-loader',
         query: {
-          presets: [['latest', {es2015: {modules: process.env.ENV === 'production' ? 'commonjs' : false}}], 'react'],
-          plugins: ['transform-decorators-legacy', 'transform-object-rest-spread', 'transform-class-properties', 'react-hot-loader/babel'],
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: [
+            ["@babel/plugin-proposal-decorators", { "legacy": true }],
+            ["@babel/plugin-proposal-class-properties", { "loose" : true }],
+            '@babel/plugin-transform-runtime', 
+            '@babel/plugin-proposal-object-rest-spread']
         },
       },
       {
@@ -30,32 +36,33 @@ module.exports = {
         },
       },
       {
-        test: /\.(scss)$/,
-        use: [{
-          loader: 'style-loader', // inject CSS to page
-        }, {
-          loader: 'css-loader', // translates CSS into CommonJS modules
-        }, {
-          loader: 'postcss-loader', // Run post css actions
-          options: {
-            plugins() { // post css plugins, can be exported to postcss.config.js
-              return [
-                require('precss'),
-                require('autoprefixer'),
-              ];
-            },
-          },
-        }, {
-          loader: 'sass-loader', // compiles SASS to CSS
-        }],
-      },
+        test: /\.(scss|css)$/,
+        use: [
+          "style-loader", // creates style nodes from JS strings
+          "css-loader", // translates CSS into CommonJS
+          "sass-loader" // compiles Sass to CSS, using Node Sass by default
+        ],
+      },    
       {
-        test: /\.(eot|svg|ttf|woff|woff2)$/,
-        loader: 'file-loader',
-      },
+        test: /\.(ttf|eot|woff|woff2)$/,
+        loader: "file-loader",
+        options: {
+          name: "[name].[ext]",
+        },  
+      }, 
     ],
   },
   plugins: [
+    function() {
+        this.plugin('watch-run', function(watching, callback) {
+            let date = new Date();
+            let displayDate = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+            console.log('\x1b[36m%s\x1b[0m', `----------------------------`);
+            console.log('\x1b[36m%s\x1b[0m', `Start compiling at ${displayDate}`);  //cyan
+            console.log('\x1b[36m%s\x1b[0m', `----------------------------`);
+            callback();
+        })
+    },
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/index.html')
@@ -63,5 +70,23 @@ module.exports = {
   ],
   resolve: {
     extensions: ['.js', '.jsx']
-  }
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        include: /\.min\.js$/,
+        uglifyOptions: {
+          warnings: true,
+          parse: {},
+          compress: false,
+          mangle: true, // Note `mangle.properties` is `false` by default.
+          output: null,
+          toplevel: false,
+          nameCache: null,
+          ie8: false,
+          keep_fnames: false,
+        },
+      }),
+    ],
+  },
 };
