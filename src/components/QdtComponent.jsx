@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import QdtComponents from 'qdt-components';
 
@@ -18,20 +18,22 @@ const options = {
 
 const qdtComponents = new QdtComponents(options.config, options.connections);
 
-export default class QdtComponent extends React.Component {
-  static propTypes = {
-    type: PropTypes.string.isRequired,
-    props: PropTypes.object.isRequired,
-  }
+function QdtComponent(props) {
+  const node = useRef(null);
+  const { type, props: qProps } = props;
 
-  componentDidMount() {
-    const { type, props } = this.props;
-    qdtComponents.render(type, props, this.node);
-  }
+  useEffect(() => {
+    qdtComponents.render(type, qProps, node.current);
+  });
 
-  render() {
-    return (
-      <div ref={(node) => { this.node = node; }} />
-    );
-  }
+  return (
+    <div ref={node} />
+  );
 }
+
+QdtComponent.propTypes = {
+  type: PropTypes.string.isRequired,
+  props: PropTypes.object.isRequired,
+};
+
+export default QdtComponent;

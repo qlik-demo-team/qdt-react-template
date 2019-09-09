@@ -1,20 +1,19 @@
 import React from 'react';
-import QdtComponent from './QdtComponent';
-
-const viz = {
-  type: 'QdtViz',
-  props: {
-    type: 'barchart', id: 'a5e0f12c-38f5-4da9-8f3f-0e4566b28398', width: '100%', height: '300px',
-  },
-};
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from '../containers/Home';
 
 const App = () => (
-  <div className="container">
-    <div className="row">
-      <div className="col-md-12">
-        <QdtComponent type={viz.type} props={viz.props} />
+  <div>
+    <Router>
+      <div className="row">
+        <div className="col-md-12">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route component={Home} />
+          </Switch>
+        </div>
       </div>
-    </div>
+    </Router>
   </div>
 );
 
