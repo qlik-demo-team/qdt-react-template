@@ -1,4 +1,4 @@
-![Banner](src/assets/banner_react.jpg "banner")
+![Banner](src/assets/react_Qdt.png "react and Qdt")
 
 # React with [qdt-components](https://github.com/qlik-demo-team/qdt-components)
 
