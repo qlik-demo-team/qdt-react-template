@@ -5,7 +5,7 @@
   "dependencies": {
     "core-js": "^3.6.4",
     "prop-types": "^15.7.2",
-    "qdt-components": "file:../qdt-components",
+    "qdt-components": "^3.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.12.19",
