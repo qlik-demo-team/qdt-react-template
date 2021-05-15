@@ -11,7 +11,7 @@
     "react-hot-loader": "^4.12.19",
     "react-router-dom": "^5.1.2",
     "regenerator-runtime": "^0.13.3",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
