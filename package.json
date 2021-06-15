@@ -47,7 +47,7 @@
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.3",
     "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.41.6",
+    "webpack": "4.46.0",
     "webpack-async-chunk-names-plugin": "^0.1.1",
     "webpack-cli": "3.3.8",
     "webpack-dev-server": "3.8.0"
