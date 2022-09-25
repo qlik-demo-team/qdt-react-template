@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Template for starting with Qdt-components",
   "dependencies": {
-    "core-js": "^3.6.4",
+    "core-js": "3.25.2",
     "prop-types": "^15.7.2",
     "qdt-components": "^3.0.0",
     "react": "^16.12.0",
